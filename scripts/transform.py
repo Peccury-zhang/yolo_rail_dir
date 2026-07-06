@@ -14,7 +14,7 @@ def convert_label_json(json_dir, save_dir, classes):
     for json_file in tqdm(json_files):
         json_path = os.path.join(json_dir, json_file)
         try:
-            with open(json_path, 'r') as f:
+            with open(json_path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
         except json.JSONDecodeError:
             print(f"Error decoding JSON file: {json_path}")
@@ -46,17 +46,23 @@ def convert_label_json(json_dir, save_dir, classes):
 
                 label_index = class_dict[label]
 
+                # OBB 要求每个目标为 4 个角点（8 个坐标）
+                if len(points) != 4:
+                    print(f"Shape '{label}' has {len(points)} points (expected 4) in JSON file: {json_path}. Skipping...")
+                    continue
+
                 normalized_points = []
                 for point in points:
                     if len(point) != 2:
                         print(f"Invalid point {point} in JSON file: {json_path}")
                         continue
-                    normalized_x = point[0] / image_width
-                    normalized_y = point[1] / image_height
+                    # 归一化并裁剪到 [0, 1]，避免旋转角点越界
+                    normalized_x = min(max(point[0] / image_width, 0.0), 1.0)
+                    normalized_y = min(max(point[1] / image_height, 0.0), 1.0)
                     normalized_points.extend([normalized_x, normalized_y])
 
-                if not normalized_points:
-                    print(f"No valid points found for label '{label}' in JSON file: {json_path}")
+                if len(normalized_points) != 8:
+                    print(f"No valid 4-point box for label '{label}' in JSON file: {json_path}")
                     continue
 
                 normalized_points_str = ' '.join(map(str, normalized_points))
@@ -65,9 +71,9 @@ def convert_label_json(json_dir, save_dir, classes):
 
 
 # 直接设置参数
-json_dir = 'C:/User/15401/Desktop/yolo_basket/labels'  # 替换为你的JSON文件目录
-save_dir = 'C:/User/15401/Desktop/yolo_basket/labels_trans'  # 替换为你想要保存TXT文件的目录
-classes = 'basket'  # 替换为你的类别名称，用逗号分隔
+json_dir = 'C:/Users/15401/Desktop/yolo_rail_dir/labels'  # 替换为你的JSON文件目录
+save_dir = 'C:/Users/15401/Desktop/yolo_rail_dir/labels_trans'  # 替换为你想要保存TXT文件的目录
+classes = 'up,down,left,right'  # 替换为你的类别名称，用逗号分隔
 
 # 确保保存目录存在
 if not os.path.exists(save_dir):
@@ -75,3 +81,5 @@ if not os.path.exists(save_dir):
 
 # 执行转换
 convert_label_json(json_dir, save_dir, classes)
+
+
