@@ -14,8 +14,8 @@ DATA_YAML = os.path.join(BASE_DIR, 'data.yaml')
 
 def main():
     # 加载官方 OBB 预训练模型 (n=最小最快; 可换 s/m/l/x 提升精度)
-    # 首次运行会自动下载 yolov8n-obb.pt
-    model = YOLO('yolov8n-obb.pt')
+    # 首次运行会自动下载 yolov11s-obb.pt
+    model = YOLO('yolo11s-obb.pt')
 
     model.train(
         data=DATA_YAML,
