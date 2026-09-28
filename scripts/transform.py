@@ -71,8 +71,8 @@ def convert_label_json(json_dir, save_dir, classes):
 
 
 # 直接设置参数
-json_dir = 'C:/Users/15401/Desktop/yolo_rail_dir/labels'  # 替换为你的JSON文件目录
-save_dir = 'C:/Users/15401/Desktop/yolo_rail_dir/labels_trans'  # 替换为你想要保存TXT文件的目录
+json_dir = 'e:/Data_center/yolo/yolo_rail_dir/labels'  # 替换为你的JSON文件目录
+save_dir = 'e:/Data_center/yolo/yolo_rail_dir/labels_trans'  # 替换为你想要保存TXT文件的目录
 classes = 'up,down,left,right'  # 替换为你的类别名称，用逗号分隔
 
 # 确保保存目录存在

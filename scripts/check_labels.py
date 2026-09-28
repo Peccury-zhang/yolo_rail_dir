@@ -6,8 +6,9 @@ OBB 每行格式: class_index x1 y1 x2 y2 x3 y3 x4 y4  (9 个字段, 坐标归�
 import os
 from collections import Counter
 
-LABELS_DIR = os.path.join(os.path.dirname(__file__), 'labels_trans')
-IMAGES_DIR = os.path.join(os.path.dirname(__file__), 'images')
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+LABELS_DIR = os.path.join(ROOT, 'labels_trans')
+IMAGES_DIR = os.path.join(ROOT, 'images')
 CLASSES = ['up', 'down', 'left', 'right']
 
 instance_counter = Counter()   # 每个类别的目标(框)数量
@@ -86,5 +87,5 @@ if errors:
     for e in errors:
         print("  " + e)
 else:
-    print("格式校验: 全部通过 ✔ (每行9字段, 坐标均在[0,1])")
+    print("格式校验: 全部通过 [OK] (每行9字段, 坐标均在[0,1])")
 print("=" * 50)

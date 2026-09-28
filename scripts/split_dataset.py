@@ -13,7 +13,7 @@ from collections import defaultdict, Counter
 
 random.seed(42)
 
-ROOT = os.path.dirname(__file__)
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LABELS_DIR = os.path.join(ROOT, 'labels_trans')
 IMAGES_DIR = os.path.join(ROOT, 'images')
 TRAIN_DIR = os.path.join(ROOT, 'train_model', 'train_data')

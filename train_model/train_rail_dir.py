@@ -10,12 +10,13 @@ from ultralytics import YOLO
 # 当前脚本所在目录 (train_model/)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_YAML = os.path.join(BASE_DIR, 'data.yaml')
+MODEL_PT = os.path.join(BASE_DIR, 'yolo11s-obb.pt')
 
 
 def main():
     # 加载官方 OBB 预训练模型 (n=最小最快; 可换 s/m/l/x 提升精度)
-    # 首次运行会自动下载 yolov11s-obb.pt
-    model = YOLO('yolo11s-obb.pt')
+    # 使用本地已有的 yolo11s-obb.pt (绝对路径), 避免依赖工作目录或重复下载
+    model = YOLO(MODEL_PT)
 
     model.train(
         data=DATA_YAML,
