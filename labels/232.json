@@ -1,0 +1,37 @@
+{
+  "version": "1.1.0",
+  "flags": {},
+  "shapes": [
+    {
+      "direction": 0.02,
+      "label": "down",
+      "text": "",
+      "points": [
+        [
+          140.86330935251803,
+          254.02877697841728
+        ],
+        [
+          607.7412776615208,
+          263.36758155174635
+        ],
+        [
+          607.1178343231142,
+          294.5355920723168
+        ],
+        [
+          140.2398660141114,
+          285.1967874989877
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rotation",
+      "flags": {}
+    }
+  ],
+  "imagePath": "..\\images\\232.png",
+  "imageData": null,
+  "imageHeight": 480,
+  "imageWidth": 640,
+  "text": ""
+}
