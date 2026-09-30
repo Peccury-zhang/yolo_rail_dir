@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """
 按类别比例划分数据集:
-- 从 labels_trans + images 中, 按各类别比例抽取共 20 个样本作为验证集(valid_data)
+- 从 labels_trans + images 中, 按 train:valid = 10:1 比例抽取验证集(valid_data)
 - 其余样本作为训练集(train_data)
 - 图片放入 <split>/images, 标签放入 <split>/labels
+- 划分前清空旧目录内容及 labels.cache, 避免残留过期文件
 使用固定随机种子, 结果可复现。
 """
 import os
@@ -20,7 +21,7 @@ TRAIN_DIR = os.path.join(ROOT, 'train_model', 'train_data')
 VALID_DIR = os.path.join(ROOT, 'train_model', 'valid_data')
 
 CLASSES = ['up', 'down', 'left', 'right']
-VALID_TOTAL = 20
+TRAIN_VALID_RATIO = 10  # train:valid = 10:1
 IMG_EXT = '.png'
 
 # 1. 按主类别对文件分组
@@ -40,6 +41,8 @@ for txt in os.listdir(LABELS_DIR):
 
 counts = {c: len(groups[c]) for c in range(len(CLASSES))}
 total = sum(counts.values())
+VALID_TOTAL = round(total / (TRAIN_VALID_RATIO + 1))
+print(f"样本总数: {total}, 验证集目标数量(1/{TRAIN_VALID_RATIO + 1}): {VALID_TOTAL}")
 
 # 2. 最大余数法计算每个类别的验证集配额
 raw = {c: VALID_TOTAL * counts[c] / total for c in counts}
@@ -63,6 +66,9 @@ for c in range(len(CLASSES)):
 
 
 def prepare(split_dir):
+    # 清空旧划分结果, 避免残留已删除/已换集的样本和过期 labels.cache
+    if os.path.exists(split_dir):
+        shutil.rmtree(split_dir)
     img_dir = os.path.join(split_dir, 'images')
     lbl_dir = os.path.join(split_dir, 'labels')
     os.makedirs(img_dir, exist_ok=True)
